@@ -24,4 +24,4 @@ function! search#ldo()
     call search#do("l")
 endfunction
 
-nnoremap <silent> <Plug>(search_quit) :q
+nnoremap <silent> <Plug>(search_quit) :q<CR>
