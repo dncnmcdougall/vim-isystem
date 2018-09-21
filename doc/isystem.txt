@@ -14,17 +14,24 @@ Buffer-local (filetype=isystem) ~
     g?              Shows this help.
     <Plug>(isystem_quit)
     q               Quits; 
-    c
     <CR>            Executes the command on the first line of the isystem
-                    buffer and pipes it into the quick fix list
-    l               Executes the command on the first line of the isystem
-                    buffer and pipes it into the location list
+                    buffer and pipes it into the specified location
 
 ==============================================================================
 COMMANDS                                                    *isystem-commands*
 
-:ISystem {isystem-command}                                    *isystem-:ISystem*
-    Opens the a new buffer populated with {isystem-command}
+:ISystem {isystem-command}              *isystem-:CISystem* *isystem-:ISystem*
+:CISystem {isystem-command}
+    Opens the a new buffer populated with {isystem-command}, the result will
+    go into the quick fix list.
+
+:LISystem {isystem-command}                                 *isystem-:LISystem*
+    Opens the a new buffer populated with {isystem-command}, the result will
+    go into the location list.
+
+:BISystem {isystem-command}                                 *isystem-:BISystem*
+    Opens the a new buffer populated with {isystem-command}, the result will
+    go into a new buffer.
 
 
 ==============================================================================

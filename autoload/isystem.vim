@@ -1,27 +1,32 @@
-function! isystem#open(isystem)
+function! isystem#open(isystem, result)
     botright 1new +set\ ft=isystem
-    execute "normal i ".a:isystem
+    call setline(1,a:isystem)
+    " execute "normal i ".a:isystem
     setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+    let b:isystem_location = a:result
 endfunction
 
-function! isystem#do(location)
-    let l:isystemString = getline('.')
+function! isystem#do()
+    let l:isystemString = shellescape(escape(getline('.'),"|"))
+    let l:isystemString = substitute(l:isystemString, "'\\\\''",'"',"g")
+
+    if !exists('b:isystem_location')
+        let l:location = 'c'
+    else
+        let l:location = b:isystem_location
+    endif
+
     quit
     if empty(l:isystemString) 
         return
-    else
-        let l:cmd = ':'.a:location.'getexpr system('.shellescape(l:isystemString).') | botright '.a:location.'open'
-        echom l:cmd
+    elseif l:location == 'c' || l:location == 'l'
+        let l:cmd = ':'.l:location.'getexpr system('.l:isystemString.') | botright '.l:location.'open'
         execute l:cmd
+    else
+        botright new 
+        let l:result = system(''.l:isystemString)
+        call append(0,l:result)
     endif
-endfunction
-
-function! isystem#cdo()
-    call isystem#do("c")
-endfunction
-
-function! isystem#ldo()
-    call isystem#do("l")
 endfunction
 
 nnoremap <silent> <Plug>(isystem_quit) :q<CR>
