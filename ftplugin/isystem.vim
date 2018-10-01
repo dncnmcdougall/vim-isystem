@@ -10,6 +10,7 @@ if !hasmapto('<Plug>(isystem_quit)', 'n')
 endif
 
 execute 'nnoremap '.s:nowait.'<buffer><silent> <CR> :<C-U>.call isystem#do()<CR>'
+execute 'imap '.s:nowait.'<buffer><silent> <CR> <ESC><CR>'
 
 execute 'xnoremap '.s:nowait.'<buffer><silent> <CR> :call isystem#do()<CR>'
 
