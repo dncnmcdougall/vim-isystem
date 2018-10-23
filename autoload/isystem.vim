@@ -1,26 +1,17 @@
-function! isystem#open(isystem, result)
-    botright 1new +set\ ft=isystem
-    call setline(1,a:isystem)
-    " execute "normal i ".a:isystem
-    setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
-    let b:isystem_location = a:result
+function! isystem#open(isystem, location)
+    let l:cedit=&cedit
+    let l:prefix = toupper(a:location)
+    call feedkeys(":".l:prefix."ISystemDo ".a:isystem.l:cedit, "t")
 endfunction
 
-function! isystem#do()
-    let l:isystemString = shellescape(escape(getline('.'),"|"))
+function! isystem#do(isystemString, location)
+    let l:isystemString = shellescape(escape(a:isystemString,"|"))
     let l:isystemString = substitute(l:isystemString, "'\\\\''",'"',"g")
 
-    if !exists('b:isystem_location')
-        let l:location = 'c'
-    else
-        let l:location = b:isystem_location
-    endif
-
-    quit
-    if empty(l:isystemString) 
+    if empty(a:isystemString) 
         return
-    elseif l:location == 'c' || l:location == 'l'
-        let l:cmd = ':'.l:location.'getexpr system('.l:isystemString.') | botright '.l:location.'open'
+    elseif a:location == 'c' || a:location == 'l'
+        let l:cmd = ':'.a:location.'getexpr system('.l:isystemString.') | botright '.a:location.'open'
         execute l:cmd
     else
         botright new 
